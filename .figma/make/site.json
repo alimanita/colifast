@@ -1,0 +1,10 @@
+{
+  "description": "A professional, responsive landing page showcasing COLISFAST's reliable freight transport services with easy quote requests and client contact options.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

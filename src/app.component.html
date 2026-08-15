@@ -1,0 +1,514 @@
+<!-- ===================== NAVBAR ===================== -->
+<header
+  [ngClass]="isScrolled ? 'bg-navy shadow-lg backdrop-blur-xl' : 'bg-transparent'"
+  class="fixed top-0 w-full z-40 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between relative">
+    <a href="#accueil" (click)="scrollTo('accueil', $event)"
+       class="font-display font-black text-2xl tracking-wide text-white relative z-10">
+      COLIS<span class="text-orange">FAST</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-sm text-white/80 font-medium">
+      <a href="#services" (click)="scrollTo('services', $event)" class="hover:text-orange transition-colors">{{ 'nav.services' | translate }}</a>
+      <a href="#europe" (click)="scrollTo('europe', $event)" class="hover:text-orange transition-colors">{{ 'nav.network' | translate }}</a>
+      <a href="#video-section" (click)="scrollTo('video-section', $event)" class="hover:text-orange transition-colors">{{ 'nav.action' | translate }}</a>
+      <a href="#apropos" (click)="scrollTo('apropos', $event)" class="hover:text-orange transition-colors">{{ 'nav.about' | translate }}</a>
+      
+      <!-- Desktop Lang Switcher -->
+      <div class="relative lang-menu ml-2">
+        <button (click)="toggleLangMenu()" class="flex items-center gap-2 hover:text-white transition-colors">
+          <span class="text-lg">{{ langMeta[lang()].flag }}</span>
+          <span class="uppercase font-bold text-xs text-white">{{ lang() }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <!-- Lang Dropdown -->
+        <div *ngIf="showLangMenu" class="absolute top-full right-0 mt-4 bg-white rounded-xl shadow-xl py-2 min-w-[140px] border border-slate-100 animate-fadeIn">
+          <button *ngFor="let l of langs" (click)="setLang(l)" 
+                  class="w-full text-left px-4 py-2.5 text-sm text-navy hover:bg-slate-50 transition-colors flex items-center gap-3"
+                  [class.bg-slate-50]="lang() === l">
+            <span class="text-lg">{{ langMeta[l].flag }}</span>
+            <span class="font-medium" [class.text-orange]="lang() === l">{{ langMeta[l].label }}</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="hidden md:flex items-center gap-4">
+      <a href="http://localhost:4200/login"
+         class="text-white hover:text-orange font-medium text-sm transition-colors">
+        Se connecter
+      </a>
+      <a href="#devis" (click)="scrollTo('devis', $event)"
+         class="btn-shimmer inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-orange hover:bg-orange-dark text-white font-bold text-sm transition-all hover:scale-105">
+        {{ 'nav.cta' | translate }}
+      </a>
+    </div>
+
+    <!-- Mobile Hamburger and Lang Switcher -->
+    <div class="md:hidden flex items-center gap-4 relative z-10">
+      <div class="relative lang-menu">
+        <button (click)="toggleLangMenu()" class="flex items-center gap-1 hover:text-white transition-colors bg-white/10 px-2 py-1 rounded border border-white/20">
+          <span>{{ langMeta[lang()].flag }}</span>
+          <span class="uppercase font-bold text-[10px] text-white">{{ lang() }}</span>
+        </button>
+        <div *ngIf="showLangMenu" class="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-xl py-2 min-w-[120px] border border-slate-100 z-50">
+          <button *ngFor="let l of langs" (click)="setLang(l)" 
+                  class="w-full text-left px-4 py-2 text-sm text-navy hover:bg-slate-50 flex items-center gap-2"
+                  [class.bg-slate-50]="lang() === l">
+            <span>{{ langMeta[l].flag }}</span>
+            <span class="font-medium" [class.text-orange]="lang() === l">{{ langMeta[l].label }}</span>
+          </button>
+        </div>
+      </div>
+
+      <button (click)="toggleMobileMenu()" class="text-white hover:text-orange focus:outline-none p-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu Backdrop -->
+<div *ngIf="mobileMenuOpen" (click)="mobileMenuOpen = false" class="md:hidden fixed inset-0 bg-navy/60 backdrop-blur-sm z-40 animate-fadeIn"></div>
+
+<!-- Mobile Sidebar -->
+<div class="md:hidden fixed top-0 right-0 h-full w-64 bg-navy-light shadow-2xl z-50 transform transition-transform duration-300 flex flex-col border-l border-white/10"
+     [class.translate-x-0]="mobileMenuOpen"
+     [class.translate-x-full]="!mobileMenuOpen">
+  
+  <!-- Sidebar Header -->
+  <div class="flex items-center justify-end p-5">
+    <button (click)="mobileMenuOpen = false" class="text-white hover:text-orange p-1 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Sidebar Links -->
+  <div class="flex flex-col gap-6 px-8 pt-8">
+    <a href="#services" (click)="scrollTo('services', $event); mobileMenuOpen = false" class="text-xl font-display font-medium text-white hover:text-orange transition-colors">{{ 'nav.services' | translate }}</a>
+    <a href="#europe" (click)="scrollTo('europe', $event); mobileMenuOpen = false" class="text-xl font-display font-medium text-white hover:text-orange transition-colors">{{ 'nav.network' | translate }}</a>
+    <a href="#video-section" (click)="scrollTo('video-section', $event); mobileMenuOpen = false" class="text-xl font-display font-medium text-white hover:text-orange transition-colors">{{ 'nav.action' | translate }}</a>
+    <a href="#apropos" (click)="scrollTo('apropos', $event); mobileMenuOpen = false" class="text-xl font-display font-medium text-white hover:text-orange transition-colors">{{ 'nav.about' | translate }}</a>
+    <div class="mt-4 pt-6 border-t border-white/10">
+      <a href="http://localhost:4200/login"
+         class="flex items-center justify-center border border-white/20 hover:bg-white/10 px-5 py-3 rounded-full text-white font-bold text-sm transition-all">
+        Se connecter
+      </a>
+    </div>
+  </div>
+</div>
+
+<main class="overflow-x-hidden">
+
+  <!-- ===================== HERO ===================== -->
+  <section id="accueil" class="relative w-full flex items-center bg-navy overflow-hidden" style="min-height: 100vh;">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+      <img src="hero.jpg" alt="COLISFAST" class="w-full h-full object-cover opacity-50"
+           style="animation: slowZoom 20s ease-in-out infinite alternate;" />
+      <div class="absolute inset-0" style="background: linear-gradient(to right, #0d1b3e 40%, rgba(13,27,62,0.5) 100%);"></div>
+      <div class="absolute inset-0" style="background: linear-gradient(to top, #0d1b3e 0%, transparent 40%);"></div>
+    </div>
+
+    <!-- Contained glow -->
+    <div class="absolute top-1/3 right-1/3 w-80 h-80 rounded-full pointer-events-none z-0"
+         style="background: rgba(249,115,22,0.18); filter: blur(80px);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pt-24 pb-16">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+
+        <!-- TEXT (auto-play animation) -->
+        <div class="hero-text">
+          <div class="badge-glow inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(249,115,22,0.35);">
+            <span class="w-2 h-2 rounded-full bg-orange animate-pulse"></span>
+            <span class="text-orange font-semibold text-xs tracking-wider uppercase">{{ 'hero.badge' | translate }}</span>
+          </div>
+
+          <h1 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-white mb-5 leading-tight">
+            {{ 'hero.title1' | translate }}<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange to-yellow-400">
+              {{ 'hero.title2' | translate }}
+            </span>
+          </h1>
+
+          <p class="text-slate-300 text-base sm:text-lg mb-8 max-w-lg leading-relaxed" [innerHTML]="'hero.subtitle' | translate"></p>
+
+          <div class="flex flex-wrap gap-4 mb-10">
+            <a href="#devis" (click)="scrollTo('devis', $event)"
+               class="btn-shimmer inline-flex items-center px-7 py-3.5 rounded-full bg-orange hover:bg-orange-dark text-white font-bold transition-all hover:scale-105"
+               style="box-shadow: 0 0 25px rgba(249,115,22,0.35);">
+              {{ 'hero.cta1' | translate }}
+            </a>
+            <a href="#video-section" (click)="scrollTo('video-section', $event)"
+               class="inline-flex items-center gap-2 text-white hover:text-orange transition-colors font-semibold group">
+              <span class="w-10 h-10 rounded-full flex items-center justify-center text-sm transition-all"
+                    style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">▶</span>
+              {{ 'hero.cta2' | translate }}
+            </a>
+          </div>
+
+          <!-- Animated Counters -->
+          <div class="counter-section flex flex-wrap items-center gap-8"
+               style="padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div>
+              <div class="text-3xl font-display font-black text-white mb-0.5">{{ counter1 }}h/7</div>
+              <div class="text-slate-400 text-xs uppercase tracking-widest">{{ 'hero.c1.label' | translate }}</div>
+            </div>
+            <div class="w-px h-10 bg-white/10"></div>
+            <div>
+              <div class="text-3xl font-display font-black text-white mb-0.5">{{ counter2 }}%</div>
+              <div class="text-slate-400 text-xs uppercase tracking-widest">{{ 'hero.c2.label' | translate }}</div>
+            </div>
+            <div class="w-px h-10 bg-white/10"></div>
+            <div>
+              <div class="text-3xl font-display font-black text-white mb-0.5">+{{ counter3 }}</div>
+              <div class="text-slate-400 text-xs uppercase tracking-widest">{{ 'hero.c3.label' | translate }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD (auto-play animation) -->
+        <div class="hero-card hidden lg:block relative">
+          <div class="rounded-3xl p-7 shadow-2xl"
+               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px);">
+            <h3 class="font-display font-bold text-xl text-white mb-5 flex items-center gap-3">
+              <span class="w-9 h-9 rounded-full flex items-center justify-center"
+                    style="background: rgba(249,115,22,0.2); color: #f97316;">⚡</span>
+              {{ 'hero.card.title' | translate }}
+            </h3>
+            <div class="space-y-4">
+              <div class="group p-4 rounded-2xl cursor-pointer transition-all duration-300"
+                   style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);"
+                   onmouseenter="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(249,115,22,0.3)'"
+                   onmouseleave="this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.06)'">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="text-xl">🚀</span>
+                  <div class="font-bold text-white text-sm">{{ 'hero.card.i1.title' | translate }}</div>
+                </div>
+                <p class="text-slate-400 text-xs pl-8">{{ 'hero.card.i1.desc' | translate }}</p>
+              </div>
+              <div class="p-4 rounded-2xl cursor-pointer transition-all duration-300"
+                   style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);"
+                   onmouseenter="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(249,115,22,0.3)'"
+                   onmouseleave="this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.06)'">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="text-xl">📦</span>
+                  <div class="font-bold text-white text-sm">{{ 'hero.card.i2.title' | translate }}</div>
+                </div>
+                <p class="text-slate-400 text-xs pl-8">{{ 'hero.card.i2.desc' | translate }}</p>
+              </div>
+              <div class="p-4 rounded-2xl cursor-pointer transition-all duration-300"
+                   style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);"
+                   onmouseenter="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(249,115,22,0.3)'"
+                   onmouseleave="this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.06)'">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="text-xl">🌍</span>
+                  <div class="font-bold text-white text-sm">{{ 'hero.card.i3.title' | translate }}</div>
+                </div>
+                <p class="text-slate-400 text-xs pl-8">{{ 'hero.card.i3.desc' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section id="services" class="py-20 bg-surface overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-orange font-semibold text-xs mb-3 uppercase tracking-wide"
+             style="background: rgba(249,115,22,0.1);">
+          {{ 'svc.badge' | translate }}
+        </div>
+        <h2 class="font-display font-black text-3xl sm:text-4xl text-navy mb-3">{{ 'svc.title' | translate }}</h2>
+        <p class="text-slate-500 text-sm leading-relaxed">{{ 'svc.subtitle' | translate }}</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="group reveal d1 bg-white p-7 rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-navy to-navy-light scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <div class="w-13 h-13 w-14 h-14 rounded-2xl bg-navy text-white flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">📦</div>
+          <h3 class="font-display font-bold text-lg text-navy mb-2">{{ 'svc.1.title' | translate }}</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">{{ 'svc.1.desc' | translate }}</p>
+        </div>
+
+        <div class="group reveal d2 bg-white p-7 rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange to-yellow-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <div class="w-14 h-14 rounded-2xl bg-orange text-white flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md" style="box-shadow: 0 4px 15px rgba(249,115,22,0.3);">⚡</div>
+          <h3 class="font-display font-bold text-lg text-navy mb-2">{{ 'svc.2.title' | translate }}</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">{{ 'svc.2.desc' | translate }}</p>
+        </div>
+
+        <div class="group reveal d3 bg-white p-7 rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-navy to-navy-light scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <div class="w-14 h-14 rounded-2xl bg-navy text-white flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">🚛</div>
+          <h3 class="font-display font-bold text-lg text-navy mb-2">{{ 'svc.3.title' | translate }}</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">{{ 'svc.3.desc' | translate }}</p>
+        </div>
+
+        <div class="group reveal d4 bg-white p-7 rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-navy-light to-navy-muted scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <div class="w-14 h-14 rounded-2xl bg-navy-light text-white flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">🤝</div>
+          <h3 class="font-display font-bold text-lg text-navy mb-2">{{ 'svc.4.title' | translate }}</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">{{ 'svc.4.desc' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VIDEO SECTION ===================== -->
+  <section id="video-section" class="relative bg-navy overflow-hidden">
+    <div class="relative w-full" style="height: 55vh; min-height: 380px; max-height: 580px;">
+      <video autoplay muted loop playsinline
+        class="absolute inset-0 w-full h-full object-cover"
+        style="opacity: 0.55;"
+        poster="hero.jpg">
+        <source src="https://videos.pexels.com/video-files/5455869/5455869-hd_1920_1080_25fps.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay absolute inset-0 z-10 pointer-events-none"></div>
+      <div class="absolute inset-0 z-10 pointer-events-none" style="background: rgba(13,27,62,0.3);"></div>
+
+      <div class="absolute inset-0 z-20 flex items-center justify-center">
+        <div class="text-center px-6 max-w-2xl mx-auto reveal">
+          <p class="text-orange font-semibold text-xs tracking-[0.3em] uppercase mb-3">{{ 'vid.badge' | translate }}</p>
+          <h2 class="font-display font-black text-3xl sm:text-5xl text-white mb-4 leading-tight"
+              style="text-shadow: 0 2px 20px rgba(0,0,0,0.5);">
+            {{ 'vid.title1' | translate }}<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange to-yellow-400">{{ 'vid.title2' | translate }}</span>
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base max-w-lg mx-auto mb-7 font-light">
+            {{ 'vid.subtitle' | translate }}
+          </p>
+          <div class="max-w-xs mx-auto text-left space-y-3">
+            <div>
+              <div class="flex justify-between text-white text-xs font-bold mb-1 uppercase tracking-wide">
+                <span>{{ 'vid.p1.label' | translate }}</span><span class="text-orange">98%</span>
+              </div>
+              <div class="h-1 rounded-full" style="background: rgba(255,255,255,0.1);">
+                <div class="h-full rounded-full bg-gradient-to-r from-orange to-yellow-400"
+                     style="width:98%; animation: fillBar 2s 0.5s cubic-bezier(0.16,1,0.3,1) both;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-white text-xs font-bold mb-1 uppercase tracking-wide">
+                <span>{{ 'vid.p2.label' | translate }}</span><span class="text-orange">100%</span>
+              </div>
+              <div class="h-1 rounded-full" style="background: rgba(255,255,255,0.1);">
+                <div class="h-full rounded-full bg-gradient-to-r from-orange to-yellow-400"
+                     style="width:100%; animation: fillBar 2s 0.8s cubic-bezier(0.16,1,0.3,1) both;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-white text-xs font-bold mb-1 uppercase tracking-wide">
+                <span>{{ 'vid.p3.label' | translate }}</span><span class="text-orange">85%</span>
+              </div>
+              <div class="h-1 rounded-full" style="background: rgba(255,255,255,0.1);">
+                <div class="h-full rounded-full bg-gradient-to-r from-orange to-yellow-400"
+                     style="width:85%; animation: fillBar 2s 1.1s cubic-bezier(0.16,1,0.3,1) both;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EUROPE ===================== -->
+  <section id="europe" class="py-20 bg-navy overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-14 items-center">
+        <div class="reveal-left">
+          <h2 class="font-display font-black text-3xl sm:text-4xl text-white mb-5 leading-tight">
+            {{ 'eu.title1' | translate }}<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange to-yellow-400">{{ 'eu.title2' | translate }}</span>
+          </h2>
+          <p class="text-slate-300 text-base mb-7 leading-relaxed" [innerHTML]="'eu.subtitle' | translate"></p>
+          <div class="space-y-4">
+            <div class="flex items-start gap-4 p-5 rounded-2xl border border-white/10 transition-all duration-300 hover:border-orange/50 cursor-default"
+                 style="background: rgba(255,255,255,0.05);">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                   style="background: rgba(249,115,22,0.2); color: #f97316;">📡</div>
+              <div>
+                <h4 class="text-white font-bold mb-0.5">{{ 'eu.f1.title' | translate }}</h4>
+                <p class="text-slate-400 text-sm">{{ 'eu.f1.desc' | translate }}</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 p-5 rounded-2xl border border-white/10 transition-all duration-300 hover:border-orange/50 cursor-default"
+                 style="background: rgba(255,255,255,0.05);">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                   style="background: rgba(249,115,22,0.2); color: #f97316;">🛡️</div>
+              <div>
+                <h4 class="text-white font-bold mb-0.5">{{ 'eu.f2.title' | translate }}</h4>
+                <p class="text-slate-400 text-sm">{{ 'eu.f2.desc' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal-right">
+          <div class="grid grid-cols-2 gap-5">
+            <div class="p-7 rounded-3xl text-center border border-white/15 hover:-translate-y-1 transition-transform duration-300"
+                 style="background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
+              <div class="text-4xl font-display font-black text-orange mb-1">24h</div>
+              <div class="text-white font-bold text-xs uppercase tracking-widest">{{ 'eu.s1' | translate }}</div>
+            </div>
+            <div class="p-7 rounded-3xl text-center hover:-translate-y-1 transition-transform duration-300"
+                 style="background: linear-gradient(135deg, #f97316, #ea6c0a); box-shadow: 0 15px 30px rgba(249,115,22,0.3);">
+              <div class="text-4xl font-display font-black text-white mb-1">99%</div>
+              <div class="text-white font-bold text-xs uppercase tracking-widest">{{ 'eu.s2' | translate }}</div>
+            </div>
+            <div class="col-span-2 p-7 rounded-3xl flex items-center justify-between hover:-translate-y-1 transition-transform duration-300"
+                 style="background: #162552; border: 1px solid rgba(255,255,255,0.1);">
+              <div>
+                <div class="text-4xl font-display font-black text-white mb-1">+15</div>
+                <div class="text-slate-400 text-xs uppercase tracking-widest font-bold">{{ 'eu.s3' | translate }}</div>
+              </div>
+              <div class="text-4xl" style="animation: floatTruck 4s ease-in-out infinite;">🌍</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="apropos" class="py-20 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-14 items-center">
+        <div class="order-2 md:order-1 relative reveal-left">
+          <div class="aspect-square rounded-3xl overflow-hidden shadow-2xl">
+            <img src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=1000&auto=format&fit=crop"
+                 alt="Équipe COLISFAST" class="w-full h-full object-cover" />
+          </div>
+          <div class="absolute -bottom-5 -right-3 sm:-right-6 bg-orange text-white p-6 rounded-2xl shadow-xl">
+            <div class="text-3xl font-display font-black mb-0.5">{{ 'ab.year' | translate }}</div>
+            <p class="font-semibold text-sm">{{ 'ab.year.label' | translate }}</p>
+          </div>
+        </div>
+
+        <div class="order-1 md:order-2 reveal-right">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full font-semibold text-xs mb-4 uppercase tracking-wide"
+               style="background: rgba(13,27,62,0.06); color: #0d1b3e;">{{ 'ab.badge' | translate }}</div>
+          <h2 class="font-display font-black text-3xl sm:text-4xl text-navy mb-5 leading-tight">{{ 'ab.title' | translate }}</h2>
+          <p class="text-slate-600 mb-5 leading-relaxed text-sm sm:text-base" [innerHTML]="'ab.desc' | translate"></p>
+          <ul class="space-y-4 mb-7">
+            <li class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0 text-xs font-bold"
+                   style="background: rgba(249,115,22,0.1); color: #f97316;">✓</div>
+              <div>
+                <h4 class="font-bold text-navy text-sm">{{ 'ab.f1.title' | translate }}</h4>
+                <p class="text-slate-500 text-xs mt-0.5">{{ 'ab.f1.desc' | translate }}</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0 text-xs font-bold"
+                   style="background: rgba(249,115,22,0.1); color: #f97316;">✓</div>
+              <div>
+                <h4 class="font-bold text-navy text-sm">{{ 'ab.f2.title' | translate }}</h4>
+                <p class="text-slate-500 text-xs mt-0.5">{{ 'ab.f2.desc' | translate }}</p>
+              </div>
+            </li>
+          </ul>
+          <div class="p-5 rounded-xl border border-slate-100 flex flex-wrap gap-5" style="background: #f8f9fc;">
+            <div><div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-0.5">SIREN</div><div class="font-semibold text-navy text-sm">929 521 474</div></div>
+            <div class="w-px bg-slate-200"></div>
+            <div><div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-0.5">Activité</div><div class="font-semibold text-navy text-sm">Transport de fret de proximité</div></div>
+            <div class="w-px bg-slate-200"></div>
+            <div><div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-0.5">Forme</div><div class="font-semibold text-navy text-sm">SAS</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section id="devis" class="py-20 relative overflow-hidden">
+    <div class="absolute inset-x-0 top-0 bg-navy" style="height: 50%;"></div>
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 relative z-10">
+      <div class="bg-white rounded-3xl p-7 sm:p-10 shadow-2xl border border-slate-100 text-center reveal-scale">
+        <h2 class="font-display font-black text-3xl sm:text-4xl text-navy mb-3">{{ 'ct.title' | translate }}</h2>
+        <p class="text-slate-500 mb-8 text-sm max-w-md mx-auto">{{ 'ct.subtitle' | translate }}</p>
+
+        <form (submit)="submitQuote($event)" class="text-left">
+          <div class="grid sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-xs font-bold text-navy mb-1.5 uppercase tracking-widest">{{ 'ct.name' | translate }}</label>
+              <input required name="name" [placeholder]="'ct.name.ph' | translate"
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition-all text-navy placeholder:text-slate-400 text-sm"
+                style="background: #f8f9fc;">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-navy mb-1.5 uppercase tracking-widest">{{ 'ct.email' | translate }}</label>
+              <input required type="email" name="email" [placeholder]="'ct.email.ph' | translate"
+                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition-all text-navy placeholder:text-slate-400 text-sm"
+                style="background: #f8f9fc;">
+            </div>
+          </div>
+          <div class="mb-6">
+            <label class="block text-xs font-bold text-navy mb-1.5 uppercase tracking-widest">{{ 'ct.message' | translate }}</label>
+            <textarea required name="message" rows="3"
+              [placeholder]="'ct.message.ph' | translate"
+              class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition-all resize-y text-navy placeholder:text-slate-400 text-sm"
+              style="background: #f8f9fc;"></textarea>
+          </div>
+          <div class="flex flex-col items-center gap-4">
+            <button type="submit"
+              class="btn-shimmer w-full sm:w-auto px-10 py-4 rounded-full bg-orange hover:bg-orange-dark text-white font-bold transition-all hover:scale-105"
+              style="box-shadow: 0 8px 25px rgba(249,115,22,0.35);">
+              {{ 'ct.submit' | translate }}
+            </button>
+            <p *ngIf="formMessage"
+               class="text-green-600 font-bold px-5 py-2.5 rounded-xl text-center text-sm w-full"
+               style="background: #f0fdf4; border: 1px solid #bbf7d0; animation: fadeInUp 0.5s both;">
+              ✓ {{ formMessage }}
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer style="background: #040b1e; padding: 4rem 0 2rem;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-4 gap-8 mb-10 pb-10 border-b border-white/10">
+      <div class="md:col-span-2">
+        <a href="#accueil" class="font-display font-black text-2xl tracking-wide text-white mb-4 block">
+          COLIS<span class="text-orange">FAST</span>
+        </a>
+        <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
+          {{ 'ft.tagline' | translate }}
+        </p>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-4 text-xs uppercase tracking-widest">{{ 'ft.contact' | translate }}</h4>
+        <ul class="space-y-3 text-slate-400 text-sm">
+          <li class="flex items-start gap-2"><span class="text-orange">📍</span><span>Noisiel, 77186 France</span></li>
+          <li class="flex items-center gap-2"><span class="text-orange">✉️</span><a href="mailto:contact@colisfast.fr" class="hover:text-orange transition-colors">contact&#64;colisfast.fr</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-4 text-xs uppercase tracking-widest">{{ 'ft.legal' | translate }}</h4>
+        <ul class="space-y-3 text-slate-400 text-sm">
+          <li><a href="#" class="hover:text-orange transition-colors">{{ 'ft.legal1' | translate }}</a></li>
+          <li><a href="#" class="hover:text-orange transition-colors">{{ 'ft.legal2' | translate }}</a></li>
+          <li><a href="#" class="hover:text-orange transition-colors">{{ 'ft.legal3' | translate }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-slate-500 text-xs">{{ 'ft.copy' | translate }}</p>
+      <div class="text-slate-500 text-xs px-3 py-1.5 rounded-full" style="background: rgba(255,255,255,0.05);">SIRET : 929 521 474 00015</div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,58 @@
+{
+  "hash": "f1d0fc53",
+  "configHash": "4eddf902",
+  "lockfileHash": "5f09e883",
+  "browserHash": "a7ccd41d",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "df0aebd7",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "8064810f",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "e957fc01",
+      "needsInterop": false
+    },
+    "zone.js": {
+      "src": "../../../../../../node_modules/zone.js/fesm2015/zone.js",
+      "file": "zone__js.js",
+      "fileHash": "df849413",
+      "needsInterop": true
+    },
+    "@ngx-translate/core": {
+      "src": "../../../../../../node_modules/@ngx-translate/core/fesm2022/ngx-translate-core.mjs",
+      "file": "@ngx-translate_core.js",
+      "fileHash": "29325bd0",
+      "needsInterop": false
+    },
+    "rxjs": {
+      "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
+      "file": "rxjs.js",
+      "fileHash": "efa0322c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-PL5CM3EY": {
+      "file": "chunk-PL5CM3EY.js"
+    },
+    "chunk-GJ7AT2Q7": {
+      "file": "chunk-GJ7AT2Q7.js"
+    },
+    "chunk-RSS3ODKE": {
+      "file": "chunk-RSS3ODKE.js"
+    },
+    "chunk-R2QGWZ7S": {
+      "file": "chunk-R2QGWZ7S.js"
+    }
+  }
+}
