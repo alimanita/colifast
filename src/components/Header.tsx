@@ -71,7 +71,7 @@ export default function Header() {
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <a
-              href="http://localhost:4200/login"
+              href="https://tms.mkmr.pro/login"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/80 hover:text-[#f97316] font-medium text-sm transition-colors duration-200"
@@ -128,7 +128,7 @@ export default function Header() {
               </a>
             ))}
             <a
-              href="http://localhost:4200/login"
+              href="https://tms.mkmr.pro/login"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMenuOpen(false)}
