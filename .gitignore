@@ -1,13 +1,34 @@
+# Dépendances Node.js
 node_modules/
+npm-debug.log
+yarn-error.log
+
+# Dossiers de compilation et de build
 dist/
 build/
+.angular/
+coverage/
 .cache/
+
+# Fichiers de configuration Vite / React (au cas où)
 .env*
 .vite/
 vite.config.*.timestamp-*
 *.tsbuildinfo
+
+# Fichiers de logs et temporaires
 *-debug.log*
 logs/
 *.log
 .claude-replay.*
 .tmp-*
+
+# Système d'exploitation (Mac, Windows)
+.DS_Store
+Thumbs.db
+
+# Éditeurs et IDE
+.vscode/
+.idea/
+*.swp
+*.swo
